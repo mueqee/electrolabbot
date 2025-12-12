@@ -1,0 +1,71 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# Virtual environments
+venv/
+.venv/
+ENV/
+env/
+.conda/
+
+# Environment variables
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Chroma DB (векторная база создаётся при индексации)
+chroma_db/
+
+# Data (обработанные данные создаются при индексации)
+data/processed/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Docker
+.dockerignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Документация и инструкции (не нужны для продакшн)
+docs/
+QUICK_DEPLOY_STREAMLIT_CLOUD.md
+DEPLOYMENT.md
+CHANGELOG.md
+ARCHITECTURE.md
+
+# Notebooks (для разработки)
+notebooks/
+
+# Конфигурационные файлы с секретами
+config.yaml
+configs/*.yaml
+!configs/logging.yaml.example
+!configs/langfuse.yaml.example
+
+# Примеры конфигураций (можно оставить для документации)
+# *.example
+# streamlit_app_with_auth.py.example
+# config.yaml.example
+

@@ -1,0 +1,102 @@
+"""
+Streamlit UI для RAG-бота с аутентификацией.
+Пример интеграции streamlit-authenticator для ограничения доступа.
+"""
+
+import os
+import sys
+import streamlit as st
+from pathlib import Path
+from typing import Optional
+
+sys.path.insert(0, str(Path(__file__).parent / "src"))
+
+from rag_service import create_rag_service, RAGService
+from dotenv import load_dotenv
+
+try:
+    import streamlit_authenticator as stauth
+    import yaml
+    from yaml.loader import SafeLoader
+    AUTH_AVAILABLE = True
+except ImportError:
+    AUTH_AVAILABLE = False
+    st.warning("streamlit-authenticator не установлен. Аутентификация отключена.")
+
+load_dotenv()
+
+st.set_page_config(
+    page_title="RAG HF Bot - Инженерный ассистент",
+    page_icon="🤖",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+def check_authentication():
+    """Проверяет аутентификацию пользователя."""
+    
+    if not AUTH_AVAILABLE:
+        return True
+    
+    if os.getenv("ENABLE_AUTH", "false").lower() != "true":
+        return True
+    
+    config_path = Path(__file__).parent / "config.yaml"
+    if not config_path.exists():
+        st.error("Файл config.yaml не найден. Аутентификация отключена.")
+        return True
+    
+    try:
+        with open(config_path) as file:
+            config = yaml.load(file, Loader=SafeLoader)
+        
+        authenticator = stauth.Authenticate(
+            config['credentials'],
+            config['cookie']['name'],
+            config['cookie']['key'],
+            config['cookie']['expiry_days']
+        )
+        
+        name, authentication_status, username = authenticator.login('Вход в систему', 'main')
+        
+        if authentication_status == False:
+            st.error('Неверное имя пользователя или пароль')
+            return False
+        elif authentication_status == None:
+            st.warning('Пожалуйста, введите имя пользователя и пароль')
+            return False
+        elif authentication_status:
+            # Пользователь аутентифицирован
+            authenticator.logout('Выход', 'sidebar')
+            st.sidebar.success(f'Вы вошли как: **{name}**')
+            return True
+            
+    except Exception as e:
+        st.error(f"Ошибка при загрузке конфигурации аутентификации: {e}")
+        return True  # В случае ошибки разрешаем доступ
+
+if not check_authentication():
+    st.stop()
+
+if "rag_service" not in st.session_state:
+    st.session_state.rag_service = None
+    st.session_state.initialized = False
+
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+st.title("Инженерный ассистент")
+st.markdown("Задавайте вопросы по технической документации (ГОСТы, СП, инструкции)")
+
+if not st.session_state.initialized:
+    with st.spinner("Инициализация RAG-сервиса..."):
+        try:
+            st.session_state.rag_service = create_rag_service()
+            st.session_state.initialized = True
+            st.success("Сервис готов к работе!")
+        except Exception as e:
+            st.error(f"Ошибка при инициализации: {e}")
+            st.stop()
+
+# добавить остальной код из streamlit_app.py...
+

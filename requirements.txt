@@ -1,0 +1,42 @@
+# RAG Framework
+langchain
+langchain-community
+langchain-huggingface
+langchain-openai
+langchain-core
+langchain-text-splitters
+sentence-transformers
+langchain-classic
+openai
+
+# Vector Database
+chromadb
+langchain-chroma
+
+# Monitoring
+langfuse
+
+# Hugging Face API
+huggingface-hub
+requests
+
+# API Framework
+fastapi
+uvicorn
+
+# UI Framework
+streamlit
+streamlit-authenticator 
+pyyaml  
+
+# Document 
+pypdf
+python-docx
+unstructured
+
+# Utils
+python-dotenv
+rich
+tiktoken
+pydantic  
+

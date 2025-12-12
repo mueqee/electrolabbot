@@ -1,0 +1,27 @@
+# Пример конфигурации для streamlit-authenticator
+# Для config.yaml с заменой реальными данными
+
+credentials:
+  usernames:
+    test_user_1:
+      email: user1@example.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Test User 1
+      password: $2b$12$hashed_password_here  # через streamlit-authenticator
+    test_user_2:
+      email: user2@example.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Test User 2
+      password: $2b$12$hashed_password_here  # через streamlit-authenticator
+
+cookie:
+  expiry_days: 30
+  key: some_random_signature_key_here  # случайную строку
+  name: rag_hf_bot_cookie
+
+pre-authorized:
+  emails:
+  - authorized@example.com
+
