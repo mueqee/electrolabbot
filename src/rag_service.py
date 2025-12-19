@@ -622,7 +622,7 @@ if __name__ == "__main__":
             print(f"     {source['snippet'][:100]}...")
         
         if 'trace_id' in result:
-            print(f"\n🔍 Langfuse Trace ID: {result['trace_id']}")
+            print(f"\nLangfuse Trace ID: {result['trace_id']}")
             print("   Можете добавить оценку через: service.add_score(trace_id, 'quality', 1.0)")
     
     except Exception as e:
