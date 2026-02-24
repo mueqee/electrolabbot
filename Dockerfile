@@ -19,5 +19,7 @@ ENV PYTHONPATH=/app
 
 EXPOSE 8501
 
+RUN python src/ingest.py
+
 CMD ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
 
