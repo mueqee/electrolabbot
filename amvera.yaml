@@ -1,6 +1,3 @@
-# конфигурация для развёртывания Amvera 
-# документация https://docs.amvera.ru/applications/configuration/docker.html
-
 meta:
   environment: docker
   toolchain:
