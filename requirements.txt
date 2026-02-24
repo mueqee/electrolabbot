@@ -38,5 +38,5 @@ unstructured
 python-dotenv
 rich
 tiktoken
-pydantic  
+pydantic
 

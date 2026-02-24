@@ -93,6 +93,7 @@ electrolabbot/
 ├── streamlit_app.py         # Streamlit UI приложение
 ├── Dockerfile               # Docker образ
 ├── docker-compose.yml       # Docker Compose конфигурация
+├── amvera.yml               # Конфигурация для Amvera Cloud
 ├── .env.example             # Пример переменных окружения
 ├── requirements.txt         # Зависимости проекта
 ├── ARCHITECTURE.md          
@@ -330,6 +331,26 @@ docker run -p 8501:8501 \
   --env-file .env \
   electrolabbot
 ```
+
+## Amvera Cloud
+
+Проект готов к развёртыванию на [Amvera Cloud](https://amvera.ru). В корне есть конфигурация `amvera.yml`.
+
+### Шаги
+
+1. Создайте проект на [amvera.ru](https://amvera.ru) и привяжите репозиторий (GitHub/GitLab или Git Amvera).
+2. В настройках проекта → **Переменные** добавьте:
+   - `HUGGINGFACE_API_TOKEN` (обязательно)
+   - при необходимости: `HF_LLM_MODEL`, ключи Langfuse
+   - для сохранения базы между деплоями: `CHROMA_PERSIST_DIR=/data/chroma_db`
+3. После первого деплоя один раз выполните индексацию (через «Выполнить команду» в Amvera или локально с теми же переменными), чтобы создать Chroma в `/data/chroma_db`:
+   ```bash
+   python src/ingest.py
+   ```
+   При `CHROMA_PERSIST_DIR=/data/chroma_db` база будет храниться в постоянном томе Amvera.
+4. Откройте выданный URL приложения — откроется Streamlit UI.
+
+Подробнее: [документация Amvera](https://docs.amvera.ru/).
 
 ## Устранение неполадок
 

@@ -1,0 +1,19 @@
+# конфигурация для развёртывания Amvera 
+# документация https://docs.amvera.ru/applications/configuration/docker.html
+
+meta:
+  environment: docker
+
+build:
+  dockerfile: Dockerfile
+
+run:
+  command: streamlit
+  args:
+    - run
+    - streamlit_app.py
+    - --server.port=8501
+    - --server.address=0.0.0.0
+  containerPort: 8501
+  # постоянное хранилище для chroma (сохраняется между деплоями)
+  persistenceMount: /data

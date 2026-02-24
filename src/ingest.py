@@ -28,10 +28,11 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# Конфигурация
-DATA_DIR = Path(__file__).parent.parent / "data" / "raw"  
-PROCESSED_DIR = Path(__file__).parent.parent / "data" / "processed"
-CHROMA_PERSIST_DIR = Path(__file__).parent.parent / "chroma_db"
+# конфигурация пути из переменных окружения для amvera или по умолчанию
+_BASE = Path(__file__).parent.parent
+DATA_DIR = Path(os.environ.get("DATA_DIR", _BASE / "data" / "raw"))
+PROCESSED_DIR = Path(os.environ.get("PROCESSED_DIR", _BASE / "data" / "processed"))
+CHROMA_PERSIST_DIR = Path(os.environ.get("CHROMA_PERSIST_DIR", _BASE / "chroma_db"))
 COLLECTION_NAME = "engineer_bot"
 
 # Параметры чанкинга

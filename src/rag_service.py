@@ -34,7 +34,9 @@ logger = logging.getLogger(__name__)
 
 load_dotenv()
 
-CHROMA_PERSIST_DIR = Path(__file__).parent.parent / "chroma_db"
+# путь к Chroma DB для Amvera /data/chroma_db или по умолчанию
+_CHROMA_DEFAULT = Path(__file__).parent.parent / "chroma_db"
+CHROMA_PERSIST_DIR = Path(os.environ.get("CHROMA_PERSIST_DIR", _CHROMA_DEFAULT))
 COLLECTION_NAME = "engineer_bot"
 EMBEDDING_MODEL = "cointegrated/rubert-tiny2"
 
@@ -153,6 +155,7 @@ class RAGService:
     
     def _init_vectorstore(self):
         """Инициализация векторной базы данных Chroma"""
+        CHROMA_PERSIST_DIR.mkdir(parents=True, exist_ok=True)
         embeddings = HuggingFaceEmbeddings(
             model_name=EMBEDDING_MODEL,
             model_kwargs={'device': 'cpu'},
@@ -622,7 +625,7 @@ if __name__ == "__main__":
             print(f"     {source['snippet'][:100]}...")
         
         if 'trace_id' in result:
-            print(f"\n🔍 Langfuse Trace ID: {result['trace_id']}")
+            print(f"\nLangfuse Trace ID: {result['trace_id']}")
             print("   Можете добавить оценку через: service.add_score(trace_id, 'quality', 1.0)")
     
     except Exception as e:
