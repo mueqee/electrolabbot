@@ -1,0 +1,14 @@
+# Настройки для работы за обратным прокси (Amvera и др.)
+# https://docs.streamlit.io/develop/api-reference/configuration/config.toml
+
+[server]
+headless = true
+address = "0.0.0.0"
+port = 8501
+enableCORS = false
+enableXsrfProtection = false
+# Быстрее отдаём ответ при первом запросе
+runOnSave = false
+
+[browser]
+gatherUsageStats = false

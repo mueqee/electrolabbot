@@ -68,8 +68,15 @@ def count_tokens(text: str) -> int:
 
 
 def parse_pdf(file_path: Path) -> str:
-    """Парсит PDF файл и возвращает текст."""
+    """Парсит PDF файл и возвращает текст. Файлы не-PDF (например HTML с расширением .pdf) пропускаются."""
     try:
+        with open(file_path, "rb") as f:
+            header = f.read(5)
+        if header != b"%PDF-":
+            logger.warning(
+                f"Пропущен (не PDF или повреждён, заголовок {header!r}): {file_path.name}"
+            )
+            return ""
         from pypdf import PdfReader
         reader = PdfReader(file_path)
         text = ""
